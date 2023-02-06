@@ -17,8 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from product import views
 from product import urls
+from authentication import urls as authurls
+from orders import urls as orderurls
+from event import urls as eventurls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/',include(urls))
+    path('api/v1/', include(urls)),
+    path('auth/', include(authurls)),
+    path('auth/', include('djoser.urls.jwt')),
+    path('orders/', include(orderurls)),
+    path('events/', include(eventurls))
 ]

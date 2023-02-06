@@ -2,10 +2,14 @@ asgiref==3.4.1
 certifi==2022.12.7
 charset-normalizer==2.0.12
 Django==3.2.16
+djangorestframework==3.14.0
 idna==3.4
 pkg-resources==0.0.0
+psycopg2==2.9.5
+python-decouple==3.6
 pytz==2022.7
 requests==2.27.1
 sqlparse==0.4.3
 typing-extensions==4.1.1
 urllib3==1.26.13
+djoser==2.0.1

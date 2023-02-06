@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from decouple import config
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_-q6(1g&eyn-69lr^)g6ngn44j47i2wk^dr9x!n0&)ls(1srhv'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,10 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'product',
+    
+        
+    #third party packages
     'rest_framework',
     'psycopg2',
+    'djoser',
+       
     
+    #inbuilt apps
+    'product',
+    'authentication',
+    'orders',
+    'event'
      
 ]
 
@@ -74,18 +84,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restapi.wsgi.application'
 
+AUTH_USER_MODEL='authentication.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'restapi',
-        'HOST':'localhost',
-        'PORT':5432,
-        'PASSWORD':'Mani.1968',
-        'USER':'postgres',
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'HOST':config('DB_HOST'),
+        'PORT':config('DB_PORT'),
+        'PASSWORD':config('DB_PASSWORD'),
+        'USER':config('DB_USER'),
     }
 }
 
@@ -107,6 +118,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK ={
+    'NON_FIELD_ERRORS_KEY':'errors',
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('Bearer',),
+   'ACCESS_TOKEN_LIFETIME':timedelta(days=1),
+   'REFRESH_TOKEN_LIFETIME':timedelta(days=1)
+}
 
 
 # Internationalization
